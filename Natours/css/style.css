@@ -1,0 +1,232 @@
+/*
+COLORS:
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+*/
+
+
+*,
+*::after,
+*::before {
+    /* because brwosers apply a certain margin and padding by default to some          element such as h1 element and we don't want it */
+    margin: 0px;
+    padding: 0px;
+    /* changing the box model so that the borders and the paddings are no longer       added to the total width and total height that we specify for a box  */
+    box-sizing: inherit;  /* all the element will inherit the box-sizing: border-box from body */
+}
+
+html {
+    font-size: 62.5%; /* root font-size 0.625 * (default font size 16px) = 10 px */
+}
+
+
+/* these properties in body are all inhereited to all its children element */
+body {
+    /* Lato is already included in index.html from googlefont and then you can use it here in css file. if browser cannot load Lato then second choice is sans-serif, which is already built-in. */
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    /* font-size: 16px; */
+    /* 1.7 times bigger than the predefined line height */
+    line-height: 1.7;
+    color: #777;
+    padding: 3rem;
+    box-sizing: border-box;
+}
+
+.header {
+    /* height is viewport of 95% */
+    height: 95vh;
+
+    /* we need to separate by comma when having two or more properties
+    since we want background img stays on top, the second one is img */
+    background-image: linear-gradient(to right bottom, 
+    rgba(126, 213, 111, 0.801), 
+    rgba(40, 180, 133, 0.801)),
+    url(../img/hero.jpg);
+
+    /* whatever the width of the viewport, it will always try to fit the element inside of the box (header)*/
+    background-size: cover;
+    /* when resizng a window, top part of the background stays but other part will move and shrink or extend it's better to experiment it*/
+    background-position: top;
+
+    /* 4 args represent (x, y) coordinate lt, rt, rb, lb; */
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+
+    position: relative;
+}
+
+.header__logo-box {
+    /* absolute position depends on parents so we need to put position relative in header */
+    position: absolute; 
+    top: 4rem;
+    left: 4rem;
+}
+
+.header__logo {
+    height: 3.5rem;
+}
+
+.header__text-box {
+    /* this 3 position property is for making the beginning of the element be located at center, so it's not sufficient */
+    position: absolute;
+    top: 40%;
+    left: 50%;
+
+    /* no relation to parent position and move to x and y to -50%  */
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.heading-primary {
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 6rem;
+}
+
+.heading-primary--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    /* animation-delay: 3s; */
+    /* animation-iteration-count: 3; */
+}
+
+.heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.7rem;
+    animation-name: moveInRight;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    /* 
+    we don't need to separate each animation property
+    animation: moveInRight 1s ease-in; 
+    */
+}
+
+/* cool animation */
+@keyframes moveInLeft {
+    /* percentage means the phase of animation from 0 to 100 */
+
+    0% {
+         opacity: 0; /* opacity is visibility min 0 and max 1*/
+         transform: translateX(-10rem)  /*translate x direction (to right) */
+    }
+
+    80% {
+        transform: translateX(1rem);
+    }
+
+    100% {
+        opacity: 1;
+        /* why 0 ? --> phase ends (original display) */
+        transform: translate(0); 
+    }
+}
+
+@keyframes moveInRight {
+    /* percentage means the phase of animation from 0 to 100 */
+
+    0% {
+         opacity: 0; /* opacity is visibility min 0 and max 1*/
+         transform: translateX(10rem)  /*translate x direction (to right) */
+    }
+
+    80% {
+        transform: translateX(-1rem);
+    }
+
+    100% {
+        opacity: 1;
+        /* why 0 ? --> phase ends (original display) */
+        transform: translate(0); 
+    }
+}
+
+@keyframes moveInBottom {
+    /* percentage means the phase of animation from 0 to 100 */
+    0% {
+         opacity: 0; /* opacity is visibility min 0 and max 1*/
+         transform: translateY(3rem)  /*translate x direction (to right) */
+    }
+
+    100% {
+        opacity: 1;
+        /* why 0 ? --> phase ends (original display) */
+        transform: translate(0); 
+    }
+}
+/* psudo class */
+/* since we want the link to appear the same as the link that is already visited */
+.btn:link,
+.btn:visited{
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4.0rem;
+    display: inline-block;
+    border-radius: 10rem;
+    /* transition can make some change animation like smoothly 
+        what's important is transition property needs to be at initial state */
+    transition: all .2s; 
+    position: relative;
+    font-size: 1.6rem;
+}
+
+.btn:hover {
+    /* it's animating to its initial state (transition)*/
+    transform: translateY(-.4rem);
+    box-shadow: 0 .5rem 2rem rgba(0, 0, 0, .4);
+}
+
+.btn:active {
+    /* it's animating to its initial state (transition)*/
+    transform: translateY(-.1rem);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+}
+
+.btn--white {
+    background-color: #fff;
+    color: #777;
+}
+
+/* basically treated as like a child of the button */
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index defines the position of the elements if they are one on top of another */
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn--white::after {
+    background-color: #fff;
+}
+
+.btn:hover::after {
+    /* scale increase the element size */
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.btn--animated {
+    animation: moveInBottom .5s ease-out .75s;
+    /*  0% {
+         opacity: 0; 
+         transform: translateY(30px)  
+    }
+    it will automatically apply the style up to zero percent before the animation starts */
+    animation-fill-mode: backwards;
+}
